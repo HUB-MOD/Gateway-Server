@@ -31,7 +31,27 @@ spring:
 #          filters:
 #          - SetPath=/account/getAll
 
-        - id: getAllAccounts-v4
+        - id: Accounts-v1
           uri: lb://ms-account
           predicates:
           - Path=/account/**
+
+        - id: Customers-v1
+          uri: lb://ms-customer
+          predicates:
+          - Path=/customer/**
+
+        - id: Credits-v1
+          uri: lb://ms-credit
+          predicates:
+          - Path=/credit/**
+
+        - id: Payments-v1
+          uri: lb://ms-payment
+          predicates:
+          - Path=/payment/**
+
+        - id: Transactions-v1
+          uri: lb://ms-transaction
+          predicates:
+          - Path=/transaction/**
