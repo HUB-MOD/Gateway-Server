@@ -35,6 +35,8 @@ spring:
           uri: lb://ms-account
           predicates:
           - Path=/account/**
+          filters:
+          - CircuitBreaker=ms-account
 
         - id: Customers-v1
           uri: lb://ms-customer
@@ -55,3 +57,40 @@ spring:
           uri: lb://ms-transaction
           predicates:
           - Path=/transaction/**
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 2s
+        permitted-number-of-calls-in-half-open-state: 5
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2s
+    instances:
+      ms-account:
+        base-config: default
+      ms-customer:
+        base-config: default
+      ms-credit:
+        base-config: default
+      ms-payment:
+        base-config: default
+      ms-transaction:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 2s
+    instances:
+      ms-account:
+        base-config: default
+      ms-customer:
+        base-config: default
+      ms-credit:
+        base-config: default
+      ms-payment:
+        base-config: default
+      ms-transaction:
+        base-config: default
